@@ -1,0 +1,17 @@
+{
+  "name": "slap-backend",
+  "version": "1.0.0",
+  "description": "demo app for training purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "mongo",
+    "express",
+    "crud"
+  ],
+  "author": "TheBigR",
+  "license": "ISC"
+}
