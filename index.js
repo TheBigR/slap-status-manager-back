@@ -22,16 +22,16 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(`user connected: ${socket.id}`);
 
-  socket.on("join_room", (data) => {
+  socket.on("list_load", async (data) => {
+    const latestStatus = await getLatest();
+    socket.to(data.company).emit("initial_load", latestStatus);
+  });
+
+  socket.on("join_company", (data) => {
     socket.join(data);
-    console.log(`User with id: ${socket.id} joined room: ${data}`);
   });
 
   socket.on("client_update", async (data) => {
-    console.log(data);
-    console.log("company is: ", data.company);
-    console.log("status is: ", data.status);
-    console.log("user is: ", data.author);
     const updatedStatus = await updateStatus({
       name: data.author,
       status: data.status,
