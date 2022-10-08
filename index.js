@@ -27,11 +27,16 @@ io.on("connection", (socket) => {
     console.log(`User with id: ${socket.id} joined room: ${data}`);
   });
 
-  socket.on("send_message", (data) => {
+  socket.on("client_update", async (data) => {
     console.log(data);
-    console.log("room is: ", data.room);
-    console.log("message is: ", data.message);
-    socket.to(data.room).emit("receive_message", data);
+    console.log("company is: ", data.company);
+    console.log("status is: ", data.status);
+    console.log("user is: ", data.author);
+    const updatedStatus = await updateStatus({
+      name: data.author,
+      status: data.status,
+    });
+    socket.to(data.company).emit("server_update", updatedStatus);
   });
 
   app.get("/up-time-check", (req, res, next) => {
