@@ -27,16 +27,21 @@ io.on("connection", (socket) => {
     socket.to(data.company).emit("initial_load", latestStatus);
   });
 
-  socket.on("join_company", (data) => {
+  socket.on("join_company", async (data) => {
     socket.join(data);
+    console.log("joined company: " + data);
+    const latest = await getLatest();
+    socket.to("demoCompany").emit("initial_update", latest);
   });
 
   socket.on("client_update", async (data) => {
     const updatedStatus = await updateStatus({
       name: data.author,
       status: data.status,
+      uuid: data.uuid,
     });
     socket.to(data.company).emit("server_update", updatedStatus);
+    console.log("sent: " + updatedStatus + data.company);
   });
 
   app.get("/up-time-check", (req, res, next) => {
@@ -45,6 +50,7 @@ io.on("connection", (socket) => {
 
   app.get("/latest", async (req, res, next) => {
     const latest = await getLatest();
+    socket.to("demoCompany").emit("server_update", latest);
     res.send(latest);
   });
 
