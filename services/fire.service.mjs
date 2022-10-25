@@ -1,6 +1,5 @@
 import fetch from "node-fetch";
 
-
 const firebaseUrl =
   "https://react-getting-started-13142-default-rtdb.firebaseio.com/royke.json";
 
@@ -33,3 +32,13 @@ export async function updateStatus(update) {
   const currStatus = await getLatest();
   return currStatus;
 }
+
+//{
+//   "rules": {
+//     ".read": "now < 1666990800000",  // 2022-10-29
+//     ".write": "now < 1666990800000",  // 2022-10-29
+//       "royke": {
+//         ".indexOn": ["Key"]
+//       }
+//   }
+// }
